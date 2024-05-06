@@ -137,7 +137,7 @@ function CarouselApp() {
 
     return (
         <main>
-            <Carousel  infiniteLoop={true} axis={'vertical'} showThumbs={false} showArrows={false} showIndicators={false} showStatus={false} onChange={onChange} dynamicHeight={false} useKeyboardArrows={true}>
+            <Carousel  infiniteLoop={true} axis={'vertical'} emulateTouch={true} showThumbs={false} showArrows={false} showIndicators={false} showStatus={false} onChange={onChange} dynamicHeight={false} useKeyboardArrows={true}>
                 <DynamicVideoCard index={0}  videos={videos} selectedIndex={selectedIndex} />
                 <DynamicVideoCard index={1}  videos={videos} selectedIndex={selectedIndex} />
                 <DynamicVideoCard index={2}  videos={videos} selectedIndex={selectedIndex} />
