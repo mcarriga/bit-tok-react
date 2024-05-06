@@ -1,0 +1,30 @@
+export const progressiveMp4s = [
+    'https://videos.pexels.com/video-files/1943483/1943483-sd_960_540_25fps.mp4',
+    'https://videos.pexels.com/video-files/1970039/1970039-sd_960_540_30fps.mp4',
+    'https://videos.pexels.com/video-files/2324293/2324293-sd_426_240_25fps.mp4',
+    'https://videos.pexels.com/video-files/2436088/2436088-sd_960_540_25fps.mp4',
+    'https://videos.pexels.com/video-files/2835528/2835528-hd_1280_720_50fps.mp4',
+    'https://videos.pexels.com/video-files/3191352/3191352-hd_1280_720_25fps.mp4',
+    'https://videos.pexels.com/video-files/855029/855029-sd_640_360_30fps.mp4',
+    'https://videos.pexels.com/video-files/3694919/3694919-sd_240_426_30fps.mp4',
+    'https://videos.pexels.com/video-files/1409338/1409338-sd_540_960_30fps.mp4',
+    'https://videos.pexels.com/video-files/853919/853919-sd_960_540_25fps.mp4',
+    'https://videos.pexels.com/video-files/854053/854053-sd_960_540_25fps.mp4',
+]
+
+export const hlsVideos = [
+    'https://d3ikisbsngjr73.cloudfront.net/f5f7a84b-518c-434f-b038-6f1d3f106c0f/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/d9250032-3687-484b-a3ec-da736ba97628/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/b4cdd86b-e705-4546-a0ef-12afcf7679c9/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/e8165952-8a15-44ad-be6f-ea1a2eed25d1/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/5807d167-b766-4fb6-b8e6-bf073395c570/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/9f65dfd0-5bdb-4c51-8054-e3782bea35d9/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/570488bb-eefc-49a2-9ba8-c28160582e4d/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/18809c1a-d472-40dd-9ac0-713a63812b8a/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/b344c4c5-6160-44c9-8bdd-5d40f51a8b65/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/ffd04b33-8a5e-4bbd-87ce-be700f7f7146/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/56007779-38b1-497f-b989-0a0f1ed533ac/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/9ccad1a9-ebdf-42fb-ac15-749231880a21/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/a56536f3-8d8e-4aec-bf79-3bc24405871e/index.m3u8',
+    'https://d3ikisbsngjr73.cloudfront.net/8cdbfe57-8208-40a2-aaf8-f7d133693906/index.m3u8',
+]
