@@ -9,7 +9,7 @@ const DynamicVideoCard = ({
   const [videoURL, setVideoURL] = useState(videos.find(vid => vid.cardIndex === index));
   const [oldVideoUrl, setOldVideoUrl] = useState(videos.find(vid => vid.cardIndex === index));
 
-  const togglePlay = () => {
+  const togglePlay = () => { // Toggles Play or Pause based on previos state
     console.log(`togglePlay`);
     let currentVideo = video.current;
     if (currentVideo.paused) {
@@ -19,7 +19,7 @@ const DynamicVideoCard = ({
     }
   };
 
-  const pause = () => {
+  const pause = () => { // Toggles Pause
     video.current.pause();
   }
 
@@ -28,8 +28,8 @@ const DynamicVideoCard = ({
     console.log(`I am created ${index} - ${videoURL}`)
   }, []);
 
-  useEffect(() => { // New Slide Is selected
-    if (selectedIndex === index) {
+  useEffect(() => { // A New Slide Is selected
+    if (selectedIndex === index) { // Newly selected slide is this slide
       console.log(`I am selected ${index}`)
       togglePlay();
     } else {
@@ -37,7 +37,7 @@ const DynamicVideoCard = ({
     }
   }, [selectedIndex]);
 
-  useEffect(() => { // Rendered
+  useEffect(() => { // handler for change in list of Videos passed to each slide
     let vid = videos.find(vid => vid.cardIndex === index);
     if (vid.url != videoURL.url) {
       setVideoURL(vid);
@@ -47,6 +47,7 @@ const DynamicVideoCard = ({
 
   useEffect(() => { // videoURL changed
     if (videoURL != oldVideoUrl) {
+      // Note for PWX - New Video should be pre-loaded here
       console.log(`Card ${index} loading new video ${videoURL.url}`);
       video.current.load();
       setOldVideoUrl(videoURL);
@@ -54,6 +55,8 @@ const DynamicVideoCard = ({
   }, [videoURL]);
   
 
+  // Currently returns a basic html5 video element
+  // TODO: swap out for PWX 
   return (
     <div className="slider-children">
       <video
