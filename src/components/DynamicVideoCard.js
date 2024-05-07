@@ -23,15 +23,19 @@ const DynamicVideoCard = ({
     video.current.pause();
   }
 
+  const play = () => {
+    video.current.play();
+  }
+
   
   useEffect(() => { // Rendered
-    console.log(`I am created ${index} - ${videoURL}`)
+    //console.log(`I am created ${index} - ${videoURL}`)
   }, []);
 
   useEffect(() => { // A New Slide Is selected
-    if (selectedIndex === index) { // Newly selected slide is this slide
+    if (selectedIndex == index) { // Newly selected slide is this slide
       console.log(`I am selected ${index}`)
-      togglePlay();
+      play();
     } else {
       pause();
     }

@@ -5,135 +5,52 @@ import { Carousel } from 'react-responsive-carousel';
 import DynamicVideoCard from "./components/DynamicVideoCard";
 import { useRef, useState, useEffect } from "react";
 import ReactPlayer from 'react-player'
-import {progressiveMp4s, hlsVideos} from '../src/sources'
+import {progressiveMp4s, hlsVideos} from '../src/sources';
+import Circularray from './CircularArray';
 
-const videoUrls = progressiveMp4s;
-
-let lastLoadedVideoIndex = 2;
-let needNewVideoAfterCard = 2;
-let needPrevVideoBeforeCard = 1;
+const slideIndexes = new Circularray([0, 1, 2]);
+const videosArray = new Circularray([...progressiveMp4s]);
 
 
 function CarouselApp() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [previousSelectedIndex, setPreviousSelectedIndex] = useState(0);
-
-    const [videos, setVideos] = useState([{cardIndex: 0, url: videoUrls[0]}, {cardIndex: 1, url: videoUrls[1]}, {cardIndex: 2, url: videoUrls[2]}]);
-
-    const getNextIndexInCardArray = (currIndex) => {
-        let array = [0, 1, 2];
-
-        if (currIndex === array.length - 1) {
-            currIndex = 0;
-        } else {
-            currIndex++;
-        }
-        return currIndex;
-    }
-
-    const getNextVideoIndex = (currIndex) => {
-        if (currIndex === videoUrls.length -1) {
-            currIndex = 0;
-        } else {
-            currIndex++;
-        }
-        return currIndex;
-    }
-
-    const getPreviousIndexInCardArray = (currIndex) => {
-        let array = [0, 1, 2];
-        if (currIndex === 0) {
-            currIndex = array.length -1;
-        } else {
-            currIndex--;
-        }
-        return currIndex;
-    }
-
-    const getPrevVideoIndex = (currIndex) => {
-        if (currIndex === 0) {
-            currIndex = videoUrls.length -1;
-        } else {
-            currIndex--;
-        }
-        return currIndex;
-    }
-
-    const maybeLoadNewVideo = () => {
-        console.log(`maybeLoadNewVideo - selectedIndex: ${selectedIndex} :: previousSelectedIndex: ${previousSelectedIndex}`);
-        if (selectedIndex > previousSelectedIndex || (previousSelectedIndex === 2 && selectedIndex === 0)) { //forward
-            console.log(`selectedIndex > previousSelectedIndex - forward -- selected: ${selectedIndex} | needNewVideoAfterCard: ${needNewVideoAfterCard}`);
-            if (selectedIndex === needNewVideoAfterCard) {
-                let nextCardIndex = getNextIndexInCardArray(selectedIndex);
-                let nextVideoIndex = getNextVideoIndex(lastLoadedVideoIndex);
-                console.log(`nextCardIndex: ${nextCardIndex} :: needNewVideoAfterCard: ${needNewVideoAfterCard}`);
-
-                needNewVideoAfterCard = nextCardIndex;
-                lastLoadedVideoIndex = nextVideoIndex;
-                console.log(`nextCardIndex: ${nextCardIndex} :: needNewVideoAfterCard: ${needNewVideoAfterCard}`);
-                updateVideosForward();
-            
-            }
-        } else { //backward
-            console.log(`selectedIndex < previousSelectedIndex - backward - selected: ${selectedIndex} | needPrevVideoBeforeCard: ${needPrevVideoBeforeCard}`);
-            if (selectedIndex === needPrevVideoBeforeCard) {
-                let prevCardIndex = getPreviousIndexInCardArray(selectedIndex);
-                let prevVideoindex = getPrevVideoIndex(lastLoadedVideoIndex -2);
-
-                needPrevVideoBeforeCard = prevCardIndex;
-                prevVideoindex--;
-                console.log(`prevCardIndex: ${prevCardIndex} :: needNewVideoAfterCard: ${needPrevVideoBeforeCard}`);
-                updateVideosBackwards();
-            }
-        }
-    }
-
-    const updateVideosBackwards = () => {
-        let prevVideoAsset = videoUrls[lastLoadedVideoIndex -3];
-        console.log(`useEffect for setVideos.Backward - ${needPrevVideoBeforeCard} :: ${prevVideoAsset}`);
-        setVideos((oldVideos) => {
-            let vids = [];
-            for (let v of oldVideos) {
-                if (v.cardIndex === needPrevVideoBeforeCard) {
-                    vids.push({cardIndex: v.cardIndex, url: prevVideoAsset});
-                } else {
-                    vids.push(v);
-                }
-            }
-            return vids;
-        });
-    }
-
-    const updateVideosForward = () => {
-        let nextVideoAsset = videoUrls[lastLoadedVideoIndex];
-        console.log(`useEffect for setVideos.Forward - ${needNewVideoAfterCard} :: ${nextVideoAsset}`);
-        setVideos((oldVideos) => {
-            let vids = [];
-            for (let v of oldVideos) {
-                if (v.cardIndex === needNewVideoAfterCard) {
-                    vids.push({cardIndex: v.cardIndex, url: nextVideoAsset});
-                } else {
-                    vids.push(v);
-                }
-            }
-            return vids;
-        });
-      }
+    const [videos, setVideos] = useState([
+        {cardIndex: slideIndexes.pointer.value, url: videosArray.pointer.value},
+        {cardIndex: slideIndexes.pointer.next.value, url: videosArray.pointer.next.value},
+        {cardIndex: slideIndexes.pointer.next.next.value, url: videosArray.pointer.next.next.value}
+    ]);
 
     const onChange = (index, item) => {
-        console.log(`onChange`);
         console.log(index);
-        console.log(item);
-        setPreviousSelectedIndex(selectedIndex);
+        //console.log(item);
+        if (index === slideIndexes.pointer.value) { // on current; do nothing
+
+        } else if (index == slideIndexes.pointer.next.value) { // forward
+            slideIndexes.rotate(-1);
+            videosArray.rotate(-1);
+            setVideos([
+                {cardIndex: slideIndexes.pointer.value, url: videosArray.pointer.value},
+                {cardIndex: slideIndexes.pointer.next.value, url: videosArray.pointer.next.value},
+                {cardIndex: slideIndexes.pointer.prev.value, url: videosArray.pointer.prev.value}
+            ])
+
+
+        } else if (index == slideIndexes.pointer.prev.value) { // backward
+            slideIndexes.rotate(1);
+            videosArray.rotate(1);
+            setVideos([
+                {cardIndex: slideIndexes.pointer.value, url: videosArray.pointer.value},
+                {cardIndex: slideIndexes.pointer.next.value, url: videosArray.pointer.next.value},
+                {cardIndex: slideIndexes.pointer.prev.value, url: videosArray.pointer.prev.value}
+            ])
+        }
         setSelectedIndex(index);
     }
 
     useEffect(() => {
-        if (selectedIndex != previousSelectedIndex) {
-            console.log('selectedIndex changed - calling maybeLoadNewVideo');
-             maybeLoadNewVideo();
-        }
-      }, [selectedIndex, previousSelectedIndex]);
+        console.log('hello');
+    }, []);
 
     return (
         <main>
